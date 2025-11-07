@@ -9,7 +9,7 @@ if(len(argv) == 1):
 else:
     match argv[1]:
         case "-a":
-            ajouter_note_cli()
+            ajouter_note_cli(argv[1:])
         case "-af":
             ajouter_note_editeur(argv[1:])
         case "-ef":

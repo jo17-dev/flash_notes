@@ -1,4 +1,6 @@
 from helpers.constantes import CLI_PARAMS
+from model.file_access import FileManager
+import sys
 
 def display_help():
     print("----- allowed params -----")
@@ -13,11 +15,16 @@ def display_help():
     
 
 def ajouter_note_cli(arg: list):
-    print("Option -a : Ajouter une note:: " +arg)
+    if(len(arg) == 1):
+        print("No note given")
+    else:
+        FileManager().add_note(" ".join(arg[1:]), is_editor_mode=False)
+        sys.exit(0)
 
 def ajouter_note_editeur(arg: list):
-    print("Option -af : Ajouter note en mode fichier")
-    print(arg)
+    FileManager().add_note(is_editor_mode=False)
+    sys.exit(0)
+
 
 
 def edit_note_editeur(arg: list):
