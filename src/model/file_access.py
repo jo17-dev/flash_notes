@@ -55,31 +55,28 @@ class FileManager:
         
         # Générer un ID unique et timestamp pour les métadonnées
         timestamp = int(datetime.datetime.now().timestamp())
+        displayable_date_time = datetime.datetime.fromtimestamp(timestamp).strftime("%A, %b %-d %Y - %H:%M")
         note_id = f"id_{timestamp}"
 
         # Créer le fichier s'il n'existe pas déjà
         if not os.path.exists(full_path):
             # Écrire l'en-tête avec les métadonnées
             with open(full_path, 'w', encoding='utf-8') as f:
-                f.write(f"id={note_id};timestamp={timestamp}\n\n")
+                f.write(f"id={note_id};timestamp={displayable_date_time}\n\n")
                 f.write(note)
                 f.write("\n---\n")
-                    
-            print(f"Fichier créé: {full_path}")
         else:
             # Écrire l'en-tête avec les métadonnées
             with open(full_path, 'a', encoding='utf-8') as f:
-                f.write(f"id={note_id};timestamp={timestamp}\n\n")
+                f.write(f"id={note_id};timestamp={displayable_date_time}\n\n")
                 f.write(note)
                 f.write("\n---\n")
-            print(f"Fichier existe déjà: {full_path}")
         
         # Gestion du mode éditeur
         if is_editor_mode:
             try:
                 subprocess.run(['vim', full_path])
             except FileNotFoundError:
-                print("Erreur: Vim n'est pas installé ou n'est pas dans le PATH")
                 print(f"Le fichier est disponible à: {full_path}")
         
         return full_path
