@@ -27,3 +27,7 @@ def edit_note_editeur(arg: list):
 def afficher_note_cli(arg: list):
     print("Option -s : afficher en mode cli les notes d'aujourdhui")
     print(arg)
+
+
+def mauvais_params():
+    print("Bad params")
