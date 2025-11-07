@@ -55,7 +55,7 @@ c'est un outils qui créer des dossier par jour et dans ces dossier créer des f
         - Le programme créer le fichier s'il n'existe pas et l'ouvre avec l'éditeur de texte de son choix
 
 3. Afficher les notes d'un jour
-    - Le user fait _nf -d_
+    - Le user fait _nf -s_
         - Le pogramme fait un cat du fichier du jour ou le crée s'il n'est pas présent
-    - Le user fait un _nf -d yyyy/mm/dd _
+    - Le user fait un _nf -sd yyyy/mm/dd _
         - Le programme fait un cat du fichie de la date pécifiée
