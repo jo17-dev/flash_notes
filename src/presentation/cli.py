@@ -34,8 +34,8 @@ def edit_note_editeur(arg: list):
     print(arg)
 
 def afficher_note_cli(arg: list):
-    print("Option -s : afficher en mode cli les notes d'aujourdhui non pris en compte")
-    print(arg)
+    file_path = FileManager().get_today_notes_full_path()
+    print(file_path)
 
 
 def mauvais_params():

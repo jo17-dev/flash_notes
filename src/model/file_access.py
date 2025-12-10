@@ -33,6 +33,40 @@ class FileManager:
     # ajouter une note 
     # is_editor_mode -> defini si on ouvre le fichier avec un text editor ou pas
     def add_note(self, note:str="# __Votre note ici!__ ", is_editor_mode:bool=False):
+
+        full_path = self.prepare_files()
+        
+        # Générer un ID unique et timestamp pour les métadonnées
+        timestamp = int(datetime.datetime.now().timestamp())
+        displayable_date_time = datetime.datetime.fromtimestamp(timestamp).strftime("%A, %b %-d %Y - %H:%M")
+        note_id = f"id_{timestamp}"
+
+        # Créer le fichier s'il n'existe pas déjà
+        if not os.path.exists(full_path):
+            # Écrire l'en-tête avec les métadonnées
+            with open(full_path, 'w', encoding='utf-8') as f:
+                f.write(f"id={note_id};timestamp={displayable_date_time}\n\n")
+                f.write(note)
+                f.write("\n---\n")
+                f.close()
+        else:
+            # Écrire l'en-tête avec les métadonnées
+            with open(full_path, 'a', encoding='utf-8') as f:
+                f.write(f"id={note_id};timestamp={displayable_date_time}\n\n")
+                f.write(note)
+                f.write("\n---\n")
+                f.close()
+        
+        # Gestion du mode éditeur
+        if is_editor_mode:
+            try:
+                subprocess.run(['vim', full_path])
+            except FileNotFoundError:
+                print(f"Le fichier est disponible à: {full_path}")
+        
+        return full_path
+    
+    def prepare_files(self):
         """Crée la structure de dossiers et fichiers organisés par date"""
         # Obtenir la date actuelle
         now = datetime.datetime.now()
@@ -52,32 +86,15 @@ class FileManager:
         
         # Créer les dossiers parents si ils n'existent pas
         os.makedirs(os.path.dirname(full_path), exist_ok=True)
-        
-        # Générer un ID unique et timestamp pour les métadonnées
-        timestamp = int(datetime.datetime.now().timestamp())
-        displayable_date_time = datetime.datetime.fromtimestamp(timestamp).strftime("%A, %b %-d %Y - %H:%M")
-        note_id = f"id_{timestamp}"
-
-        # Créer le fichier s'il n'existe pas déjà
-        if not os.path.exists(full_path):
-            # Écrire l'en-tête avec les métadonnées
-            with open(full_path, 'w', encoding='utf-8') as f:
-                f.write(f"id={note_id};timestamp={displayable_date_time}\n\n")
-                f.write(note)
-                f.write("\n---\n")
-        else:
-            # Écrire l'en-tête avec les métadonnées
-            with open(full_path, 'a', encoding='utf-8') as f:
-                f.write(f"id={note_id};timestamp={displayable_date_time}\n\n")
-                f.write(note)
-                f.write("\n---\n")
-        
-        # Gestion du mode éditeur
-        if is_editor_mode:
-            try:
-                subprocess.run(['vim', full_path])
-            except FileNotFoundError:
-                print(f"Le fichier est disponible à: {full_path}")
-        
         return full_path
     
+    def get_today_notes_full_path(self):
+        full_path = self.prepare_files()
+        if os.path.exists(full_path):
+            return full_path
+        else:
+            try:
+                with open(full_path, 'a', encoding='utf-8') as f:
+                    f.close()
+            except:
+                print("something happened.. please prevent the devellopper...")
