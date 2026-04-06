@@ -4,12 +4,13 @@ LDFLAGS =
 
 SRC_DIR = src
 OBJ_DIR = build
-BIN = nf_beta
+BIN = nf
 
 SRCS := $(shell find $(SRC_DIR) -name '*.cpp')
 
 OBJS := $(patsubst $(SRC_DIR)/%, $(OBJ_DIR)/%, $(SRCS:.cpp=.o))
 
+PREFIX ?= /usr/local
 
 all: $(BIN)
 
@@ -25,5 +26,12 @@ clean:
 
 run: all
 	./$(BIN)
+
+install: $(BIN)
+	install -d $(PREFIX)/bin
+	install -m 755 $(BIN) $(PREFIX)/bin/$(BIN)
+
+uninstall:
+	rm -f $(PREFIX)/bin/$(BIN)
 
 .PHONY: all clean run

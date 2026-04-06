@@ -1,32 +1,40 @@
-# OUtils de prise de note / pense bête / organisation `Flash Note` __nf__
+# Outils de prise de note / pense bête / organisation `Flash Note` __nf__
 
-c'est un outils qui créer des dossier par jour et dans ces dossier créer des fichiers 
+nf (flashnote) est un outils qui transforme vos idées spontanées en fichiers de notes par jour en markdown, avec un point d'honneur sur la vélocité.
+
+Étant toujours dans le termnial en tant que dev, rien ne sert d'ouvrir une interface graphique pour noter une idée. ;)
 
 
+# 1. Installation
 
+## Sur linux
+- clonez le projet `git clone https://github.com/jo17-dev/flash_notes.git && cd flash_notes`
+- Je vous laisse compliler votre propre version avec `sudo make install` sur la branche main :)
 
+> _NB 1_: il est fortement recommandé d'utiliser __make 4+__
+> _NB 2_: Toute l'installation a été testé sur manjaro (arch based), mais pas sur les autres ditributions
+	
+## Sur windows: 
+- le Makefile actuel ne prends pas encore en compte la plateforme windows.
+- Aucune installation n'as été testée  pour la plateforme. Toutefois, la variable d'environement `$HOME` car le programme (en date de la 2.0.0-beta) se base dessus pour déterminer l'endroit ou stocker les fichiers.
 
-# 1. Fonctionnalités
+# 2. Fonctionnalités
 
-- Ajouter une note `nf -a "Votre note ici"`
+### Fonctionalités actuelle ( minimum viable )
+- Ajouter une note `nf -a <Votre note ici>`
+- Afficher le chemin vers le fichier de note de la journée: `nf`
+- Afficher la version utilisée: `nf -v`
+
+### 2.2 À venir....
 -  Edit note `nf -e id` :  Ouvre le fichier de de la note 
-- Suprimmer les notes
-- configurer le dossier principal du projet
-    - Ajouter le dossier le dossier principal du projet: defini à l'installation dans un fichier _flashnoterc_
-    - Modifier le dossier principal du projet
-
+- Supression des notes
+- configurations externes ( ex le dossier principal de sauvegardes, etc... via un ficher de configuration )
 - Afficher les notes du dernier jour, de la derniere heure ou meme de la derniere minute
-
 
 # Coeur du programme  & configuration par défaut
 
-    ## Achitecture
-
-- Un fichier `.flashnoterc` pour les configs de l'app 
-    - chemin du dossier par defaut uniquement pour le moment
-    - url de backup ?
-    - le path de l'éditeur par defaut ( vim par default)
-- Un dossier principal:
+## Achitecture
+- Un dossier principal _.flashnote_ à la racine:
     - dossier 2025 _year2025_
         - dossier moi janvier 2025 _month01_
             - fichier jour1 _day01.flashnote.md_
@@ -34,28 +42,3 @@ c'est un outils qui créer des dossier par jour et dans ces dossier créer des f
             - fichier jour31 _day31.flashnote.md_
         - dossier moi fevrier 2025 _month02_
     - dossier 2026
-
-
-
-
-
-
-# Processus d'affaires et cas d'utilisations
-
-1. Ajout d'une note
-    - Le user fait _nf -a "ddqdwqdwqdqwwqewqewqewq"_
-        - Le programme insert dans yearX/monthX/dayX un ------\n id=qewqqwe; timestamp=1234343 \n la none. et créer les dossiers et fichiers s'l existent pas
-    - Le user fait _nf -af_
-        - Le programme ouvrre
-        - Le programme créer le fichier s'il n'existe pas et l'ouvre avec l'éditeur de texte de son choix
-
-2. Edition d'une note
-     - Le user fait _nf -ef_
-        - Le programme ouvrre
-        - Le programme créer le fichier s'il n'existe pas et l'ouvre avec l'éditeur de texte de son choix
-
-3. Afficher les notes d'un jour
-    - Le user fait _nf -s_
-        - Le pogramme fait un cat du fichier du jour ou le crée s'il n'est pas présent
-    - Le user fait un _nf -sd yyyy/mm/dd _
-        - Le programme fait un cat du fichie de la date pécifiée
